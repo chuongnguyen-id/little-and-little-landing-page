@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./css/reset.scss";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap");
+@import "./css/base.scss";
+@font-face {
+  font-family: "iCielKoni";
+  src: url("./fonts/iCiel-Koni-Black.otf") format("opentype");
+}
