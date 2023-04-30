@@ -1,6 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import TelephoneIcon from "../components/icons/TelephoneIcon";
+import { Link, NavLink } from "react-router-dom";
+import TelephoneIcon from "../../components/Icon/TelephoneIcon";
 
 const navMenuData = [
   {
@@ -9,11 +8,11 @@ const navMenuData = [
   },
   {
     title: "Sự kiện",
-    link: "#",
+    link: "/su-kien",
   },
   {
     title: "Liên hệ",
-    link: "#",
+    link: "/lien-he",
   },
 ];
 
@@ -27,13 +26,18 @@ const Header = () => {
         <div className="flex justify-center items-center gap-x-[212px]">
           <ul className="flex items-center gap-x-20">
             {navMenuData.map((item) => (
-              <li key={item.title}>
-                <Link
+              <li
+                key={item.title}
+                className="flex text-lg font-bold text-titleColor"
+              >
+                <NavLink
                   to={item.link}
-                  className="p-3 text-lg font-bold text-titleColor"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "pending" : isActive ? "active" : ""
+                  }
                 >
                   {item.title}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
