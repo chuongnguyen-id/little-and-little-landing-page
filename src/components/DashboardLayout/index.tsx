@@ -14,7 +14,7 @@ const DashboardLayout = ({ children, className = "", ...props }: Props) => {
       }`}
       {...props}
     >
-      {children}
+      <div className="wrapper">{children}</div>
     </section>
   );
 };

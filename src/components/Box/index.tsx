@@ -9,7 +9,7 @@ type Props = {
 const Box = ({ children, className = "", ...props }: Props) => {
   return (
     <div
-      className={`pb-4 rounded-[30px] bg-shadowBox ${className || ""}`}
+      className={`relative pb-4 rounded-[30px] bg-shadowBox z-20`}
       {...props}
     >
       <div className="rounded-[30px] bg-coverBox p-3 h-full">

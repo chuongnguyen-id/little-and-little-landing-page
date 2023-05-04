@@ -21,9 +21,11 @@ module.exports = {
         titleColor: "#FFFFFF",
         infoTextColor: "#23221F",
         labelTextColor: "#12265A",
-        // priceColor: "#FA7D09",
+        descriptionTextColor: "#6C7272",
+        dateTextColor: "#444444",
+        priceTextColor: "#FA7D09",
         // codeColor: "#000000",
-        // ticketTextColor: "#FFC226",
+        ticketTextColor: "#FFC226",
       },
       backgroundImage: {
         titleCardGradient:

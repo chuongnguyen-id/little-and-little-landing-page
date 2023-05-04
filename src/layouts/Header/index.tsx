@@ -18,7 +18,7 @@ const navMenuData = [
 
 const Header = () => {
   return (
-    <header className="h-20 fixed top-0 left-0 right-0">
+    <header className="h-20 fixed top-0 left-0 right-0 z-50">
       <div className="flex justify-center h-full bg-navigationColor gap-x-60 rounded-b-[50%] shadow-2xl">
         <Link to="/">
           <img srcSet="/logo.png 3x" alt="logo" />

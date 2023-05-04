@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Button from "../../components/Button";
-import CalendarIcon from "../../components/Icon/CalendarIcon";
 
 interface Inputs {
-  numberCard?: string;
+  price?: string;
+  number?: number;
+  date?: Date;
   fullname?: string;
-  expirationDate?: Date;
-  csc?: string;
+  phone?: string;
+  email?: string;
 }
 
 const TicketInfo = () => {
@@ -28,57 +29,78 @@ const TicketInfo = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-6 p-[22.49px] gap-4"
+        className="grid grid-cols-8 gap-x-16 gap-y-4 text-xl font-bold pl-[117px] pr-[91px]"
       >
-        <label>
-          Số tiến thanh toán
-          <input
-            placeholder="Số thẻ"
-            type="string"
-            name="numberCard"
-            value={inputs.numberCard || ""}
-            onChange={handleChange}
-            className="col-span-6"
-          />
-        </label>
-
-        <label>
-          Họ tên chủ thẻ
+        <label className="col-span-3">
+          Số tiền thanh toán
           <input
             type="string"
-            name="fullname"
-            value={inputs.fullname || ""}
+            name="price"
+            value={inputs.price || ""}
             onChange={handleChange}
-            className="col-span-6"
+            className="mt-2 text-lg font-normal"
           />
         </label>
-        <label>
-          Ngày hết hạn
+        <label className="col-span-2">
+          Số lượng vé
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              name="number"
+              value={inputs.number || ""}
+              onChange={handleChange}
+              className="mt-2 text-lg font-normal"
+            />
+            vé
+          </div>
+        </label>
+        <label className="col-span-3">
+          Ngày sử dụng
           <input
             type="text"
             name="date"
             value={
-              inputs.expirationDate
-                ? new Date(inputs.expirationDate).toISOString().substr(0, 10)
+              inputs.date
+                ? new Date(inputs.date).toISOString().substr(0, 10)
                 : ""
             }
             onChange={handleChange}
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
             min={new Date().toISOString().split("T")[0]}
-            className="col-span-5"
+            className="mt-2 text-lg font-normal"
           />
-          <div className="col-span-1 h-[56px] shadow-3xl">
-            <CalendarIcon />
-          </div>
         </label>
-        <input
-          type="password"
-          name="csc"
-          value={inputs.csc || ""}
-          onChange={handleChange}
-          className="col-span-2"
-        />
+        <label className="col-start-1 col-span-5">
+          Thông tin liên hệ
+          <input
+            type="string"
+            name="fullname"
+            value={inputs.fullname || ""}
+            onChange={handleChange}
+            className="mt-2 text-lg font-normal"
+          />
+        </label>
+        <label className="col-start-1 col-span-3">
+          Điện thoại
+          <input
+            type="string"
+            name="phone"
+            value={inputs.phone || ""}
+            onChange={handleChange}
+            className="mt-2 text-lg font-normal"
+          />
+        </label>
+        <label className="col-start-1 col-span-5">
+          Email
+          <input
+            type="string"
+            name="email"
+            value={inputs.email || ""}
+            onChange={handleChange}
+            className="mt-2 text-lg font-normal"
+          />
+        </label>
         <Button
           style={{ height: "60px" }}
           className="mt-2 col-start-2 col-span-4 w-full"

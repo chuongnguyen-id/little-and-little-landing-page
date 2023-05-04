@@ -1,11 +1,19 @@
 import React from "react";
+
+// component
 import Header from "../Header";
 import DashboardLayout from "../../components/DashboardLayout";
 import Box from "../../components/Box";
+import InfoContact from "./InfoContact";
+import Title from "../../components/Title";
+
+// icon
 import AddressIcon from "../../components/Icon/AddressIcon";
 import EmailIcon from "../../components/Icon/EmailIcon";
 import PhoneIcon from "../../components/Icon/PhoneIcon";
-import InfoContact from "./InfoContact";
+
+// image
+import AvatarAlex from "../../assets/image/Decor/AvatarAlex.png";
 
 const contact = [
   {
@@ -30,36 +38,35 @@ const Contact = () => {
     <>
       <Header />
       <DashboardLayout>
-        <div className="wrapper mt-30">
-          <title className="flex justify-center items-center mb-14 font-icielKoni text-7xl text-titleColor">
-            Liên hệ
-          </title>
-          <div className="flex gap-[30px]">
-            <Box style={{ width: "950px" }}>
-              <p className="p-[56px] pb-[35px] text-xl">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse ac mollis justo. Etiam volutpat tellus quis risus
-                volutpat, ut posuere ex facilisis.
-              </p>
-              <InfoContact />
-            </Box>
-            <div className="w-[539px] flex flex-col gap-y-4">
-              {contact.map((item) => (
-                <Box>
-                  <div className="flex px-9 py-12 gap-6">
-                    {item.icon}
-                    <div>
-                      <h2 className="text-labelTextColor">{item.label}</h2>
-                      <p className="text-infoTextColor text-base">
-                        {item.info}
-                      </p>
-                    </div>
+        <Title>Liên hệ</Title>
+        <div className="flex justify-end w-[1600px] gap-[30px]">
+          <Box style={{ width: "950px" }}>
+            <p className="p-[56px] pb-[35px] text-xl">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Suspendisse ac mollis justo. Etiam volutpat tellus quis risus
+              volutpat, ut posuere ex facilisis.
+            </p>
+            <InfoContact />
+          </Box>
+          <div className="w-[539px] flex flex-col gap-y-4">
+            {contact.map((item) => (
+              <Box>
+                <div className="flex px-9 py-12 gap-6">
+                  {item.icon}
+                  <div>
+                    <h2 className="text-labelTextColor">{item.label}</h2>
+                    <p className="text-infoTextColor text-base">{item.info}</p>
                   </div>
-                </Box>
-              ))}
-            </div>
+                </div>
+              </Box>
+            ))}
           </div>
         </div>
+        <img
+          src={AvatarAlex}
+          alt="Alex"
+          className="absolute left-0 top-[347px]"
+        />
       </DashboardLayout>
     </>
   );
