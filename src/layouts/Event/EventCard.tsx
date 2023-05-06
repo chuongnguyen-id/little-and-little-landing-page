@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Button from "../../components/Button";
 import MiniCalendarIcon from "../../components/Icon/MiniCalendarIcon";
 
@@ -22,7 +22,7 @@ const EventCard = ({
   ...props
 }: Props) => {
   return (
-    <div className={`rounded-xl bg-white ${className || ""}`} {...props}>
+    <div className={`rounded-xl bg-white z-20 ${className || ""}`} {...props}>
       <img src={image} alt="#" className="rounded-t-xl" />
       <div className="my-3 pl-6">
         <div className="text-3xl font-bold">{title}</div>
@@ -36,11 +36,16 @@ const EventCard = ({
         <div className="text-[32px] text-priceTextColor font-bold py-2">
           {price}
         </div>
-        <Link to="/chi-tiet">
+        <NavLink
+          to="/su-kien/chi-tiet"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
           <Button style={{ fontSize: "18px" }} className="w-[200px]">
             Xem chi tiết
           </Button>
-        </Link>
+        </NavLink>
       </div>
     </div>
   );

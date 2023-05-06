@@ -70,7 +70,7 @@ const PaymentSuccess = () => {
         <img
           src={AvatarAlvin}
           alt="Alvin"
-          className="absolute left-0 top-[260px]"
+          className="absolute left-0 top-[260px] z-30"
         />
       </DashboardLayout>
     </>

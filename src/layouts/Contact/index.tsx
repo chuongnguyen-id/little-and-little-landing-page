@@ -65,7 +65,7 @@ const Contact = () => {
         <img
           src={AvatarAlex}
           alt="Alex"
-          className="absolute left-0 top-[347px]"
+          className="absolute left-0 top-[347px] z-30"
         />
       </DashboardLayout>
     </>

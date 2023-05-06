@@ -14,6 +14,7 @@ import StarIcon from "../../components/Icon/StarIcon";
 import LogoDamSen from "../../assets/image/LogoDamSen.png";
 import Spine from "../../assets/image/Spine.png";
 import AvatarLisa from "../../assets/image/Decor/AvatarLisa.png";
+import BgDecor from "./BgDecor";
 
 const Home = () => {
   return (
@@ -62,8 +63,9 @@ const Home = () => {
         <img
           src={AvatarLisa}
           alt="Lisa"
-          className="absolute left-0 top-[490px]"
+          className="absolute left-0 top-[490px] z-30"
         />
+        <BgDecor />
       </DashboardLayout>
     </>
   );

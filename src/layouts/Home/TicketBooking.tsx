@@ -33,7 +33,12 @@ const TicketBooking = () => {
         onSubmit={handleSubmit}
         className="grid grid-cols-6 p-[22.49px] gap-4"
       >
-        <select name="package" onChange={handleChange} className="col-span-5">
+        <select
+          name="package"
+          onChange={handleChange}
+          className="col-span-5"
+          defaultValue="Gói gia đình"
+        >
           <option value="Gói thông thường">Gói thông thường</option>
           <option value="Gói Silver">Gói Silver</option>
           <option value="Gói gia đình">Gói gia đình</option>

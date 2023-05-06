@@ -44,7 +44,7 @@ const Payment = () => {
         <img
           src={AvatarTrini}
           alt="Trini"
-          className="absolute left-0 top-[347px]"
+          className="absolute left-0 top-[347px] z-30"
         />
       </DashboardLayout>
     </>

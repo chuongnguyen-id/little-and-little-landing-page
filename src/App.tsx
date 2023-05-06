@@ -13,10 +13,10 @@ function App() {
       <Routes>
         <Route path="/" Component={Home}></Route>
         <Route path="/su-kien" Component={Event}></Route>
-        <Route path="/chi-tiet" Component={EventDetails}></Route>
+        <Route path="/su-kien/chi-tiet" Component={EventDetails}></Route>
         <Route path="/lien-he" Component={Contact}></Route>
         <Route path="/thanh-toan" Component={Payment}></Route>
-        <Route path="/thanh-toan-thanh-cong" Component={PaymentSuccess}></Route>
+        <Route path="/thanh-toan/thanh-cong" Component={PaymentSuccess}></Route>
       </Routes>
     </>
   );
