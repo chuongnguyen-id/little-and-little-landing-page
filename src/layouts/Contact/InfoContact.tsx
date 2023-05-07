@@ -1,103 +1,38 @@
-// import { useState } from "react";
-// import Button from "../../components/Button";
-
-// interface Inputs {
-//   fullname?: string;
-//   email?: string;
-//   phone?: string;
-//   address?: string;
-//   message?: string;
-// }
-
-// const InfoContact = () => {
-//   const [inputs, setInputs] = useState<Inputs>({});
-
-//   const handleChange = (event: any) => {
-//     const name = event.target.name;
-//     const value = event.target.value;
-//     setInputs((values) => ({ ...values, [name]: value }));
-//   };
-
-//   const handleSubmit = (event: any) => {
-//     event.preventDefault();
-//     console.log(inputs);
-//     window.alert(JSON.stringify(inputs));
-//   };
-
-//   return (
-//     <>
-//       <form
-//         onSubmit={handleSubmit}
-//         className="grid grid-cols-12 pl-[56px] pr-[62px] gap-6"
-//       >
-//         <input
-//           placeholder="Họ và tên"
-//           type="text"
-//           name="fullname"
-//           value={inputs.fullname || ""}
-//           onChange={handleChange}
-//           className="col-span-4"
-//         />
-//         <input
-//           placeholder="Địa chỉ email"
-//           type="email"
-//           name="email"
-//           value={inputs.email || ""}
-//           onChange={handleChange}
-//           className="col-span-8"
-//         />
-//         <input
-//           placeholder="Số điện thoại"
-//           type="text"
-//           name="phone"
-//           value={inputs.phone || ""}
-//           onChange={handleChange}
-//           className="col-span-4"
-//         />
-//         <input
-//           placeholder="Địa chỉ"
-//           type="text"
-//           name="address"
-//           value={inputs.address || ""}
-//           onChange={handleChange}
-//           className="col-span-8"
-//         />
-//         <textarea
-//           placeholder="Lời nhắn"
-//           name="message"
-//           value={inputs.message || ""}
-//           onChange={handleChange}
-//           className="col-span-12 h-[152px]"
-//         />
-//         <Button
-//           style={{ height: "60px" }}
-//           className="mt-6 col-start-4 col-span-6 w-full"
-//         >
-//           Gửi liên hệ
-//         </Button>
-//       </form>
-//     </>
-//   );
-// };
-
-// export default InfoContact;
-
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+// component
+import { CloseOutlined } from "@ant-design/icons";
 import Button from "../../components/Button";
 
+// ant
+import { notification } from "antd";
+
+// formik
+import { Formik, Form, Field, ErrorMessage } from "formik";
+
+// yup
+import * as Yup from "yup";
+
+interface Inputs {
+  fullname?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  message?: string;
+}
+
 const InfoContactSchema = Yup.object().shape({
-  fullname: Yup.string().required("Họ và tên không được để trống"),
+  fullname: Yup.string().required("Vui lòng nhập họ và tên"),
   email: Yup.string()
     .email("Địa chỉ email không hợp lệ")
-    .required("Địa chỉ email không được để trống"),
-  phone: Yup.string().required("Số điện thoại không được để trống"),
-  address: Yup.string().required("Địa chỉ không được để trống"),
-  message: Yup.string().required("Lời nhắn không được để trống"),
+    .required("Vui lòng nhập địa chỉ email"),
+  phone: Yup.string()
+    .required("Vui lòng nhập số điện thoại")
+    .matches(/^(0|\+84)[3|5|7|8|9][0-9]{8}$/, "Số điện thoại không hợp lệ"),
+  address: Yup.string().required("Vui lòng nhập địa chỉ"),
+  message: Yup.string().required("Vui lòng nhập lời nhắn"),
 });
 
 const InfoContact = () => {
-  const initialValues = {
+  const initialValues: Inputs = {
     fullname: "",
     email: "",
     phone: "",
@@ -105,9 +40,27 @@ const InfoContact = () => {
     message: "",
   };
 
-  const onSubmit = (values: any) => {
-    console.log(values);
-    window.alert(JSON.stringify(values));
+  const onSubmit = (values: any, { resetForm }: any) => {
+    // console.log(values);
+    notification.open({
+      message: (
+        <div className="text-xl p-6">
+          Gửi liên hệ thành công.
+          <br />
+          Vui lòng kiên nhẫn đợi phản hồi từ chúng tôi, bạn nhé!
+        </div>
+      ),
+      closeIcon: <CloseOutlined style={{ color: "orange" }} />,
+      onClose: () => {
+        resetForm();
+      },
+      placement: "top",
+      style: {
+        width: "472px",
+        height: "169px",
+        borderRadius: "24px",
+      },
+    });
   };
 
   return (
@@ -133,8 +86,8 @@ const InfoContact = () => {
                 name="fullname"
                 component="div"
                 className={
-                  "text-red-500 text-sm mt-1" +
-                  (errors.fullname && touched.fullname ? " h-0" : "")
+                  "text-red-500 text-lg mt-1" +
+                  (errors.fullname && touched.fullname ? " h-1" : "")
                 }
               />
             </div>
@@ -152,8 +105,8 @@ const InfoContact = () => {
                 name="email"
                 component="div"
                 className={
-                  "text-red-500 text-sm mt-1" +
-                  (errors.fullname && touched.fullname ? " h-0" : "")
+                  "text-red-500 text-lg mt-1" +
+                  (errors.fullname && touched.fullname ? " h-1" : "")
                 }
               />
             </div>
@@ -171,8 +124,8 @@ const InfoContact = () => {
                 name="phone"
                 component="div"
                 className={
-                  "text-red-500 text-sm mt-1" +
-                  (errors.fullname && touched.fullname ? " h-0" : "")
+                  "text-red-500 text-lg mt-1" +
+                  (errors.fullname && touched.fullname ? " h-1" : "")
                 }
               />
             </div>
@@ -190,8 +143,8 @@ const InfoContact = () => {
                 name="address"
                 component="div"
                 className={
-                  "text-red-500 text-sm mt-1" +
-                  (errors.fullname && touched.fullname ? " h-0" : "")
+                  "text-red-500 text-lg mt-1" +
+                  (errors.fullname && touched.fullname ? " h-1" : "")
                 }
               />
             </div>
@@ -209,12 +162,15 @@ const InfoContact = () => {
                 name="message"
                 component="div"
                 className={
-                  "text-red-500 text-sm mt-1" +
-                  (errors.fullname && touched.fullname ? " h-0" : "")
+                  "text-red-500 text-lg mt-1" +
+                  (errors.fullname && touched.fullname ? " h-1" : "")
                 }
               />
             </div>
-            <Button className="col-start-4 col-span-6 mt-6 w-full flex-shrink-0">
+            <Button
+              style={{ height: "60px" }}
+              className="col-start-4 col-span-6 mt-6 w-full flex-shrink-0"
+            >
               Gửi liên hệ
             </Button>
           </Form>

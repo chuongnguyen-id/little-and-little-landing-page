@@ -1,94 +1,132 @@
-import { useState } from "react";
+// component
 import Button from "../../components/Button";
+
+// formik
+import { Formik, Form, Field, ErrorMessage } from "formik";
+
+// yup
+import * as Yup from "yup";
+
+// icon
 import CalendarIcon from "../../components/Icon/CalendarIcon";
 
 interface Inputs {
   numberCard?: string;
   fullname?: string;
-  expirationDate?: Date;
+  expirationDate?: Date | "";
   csc?: string;
 }
 
-const PaymentInfo = () => {
-  const [inputs, setInputs] = useState<Inputs>({});
+const validationSchema = Yup.object().shape({
+  numberCard: Yup.string().required("Vui lòng nhập số thẻ"),
+  fullname: Yup.string().required("Vui lòng nhập họ tên chủ thẻ"),
+  expirationDate: Yup.date()
+    .required("Vui lòng nhập ngày hết hạn")
+    .min(new Date(), "Ngày hết hạn không hợp lệ"),
+  csc: Yup.string().required("Vui lòng nhập CVV/CVC"),
+});
 
-  const handleChange = (event: any) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+const PaymentInfo = () => {
+  const initialValues: Inputs = {
+    numberCard: "",
+    fullname: "",
+    expirationDate: "",
+    csc: "",
   };
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log(inputs);
-    window.alert(JSON.stringify(inputs));
+  const onSubmit = (values: Inputs) => {
+    console.log(values);
+    window.alert(JSON.stringify(values));
   };
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-6 p-[22.49px] gap-4 text-xl font-bold"
-      >
-        <label className="col-span-6">
-          Số thẻ
-          <input
-            type="string"
-            name="numberCard"
-            value={inputs.numberCard || ""}
-            onChange={handleChange}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-
-        <label className="col-span-6">
-          Họ tên chủ thẻ
-          <input
-            type="string"
-            name="fullname"
-            value={inputs.fullname || ""}
-            onChange={handleChange}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <label className="col-span-5">
-          Ngày hết hạn
-          <input
-            type="text"
-            name="expirationDate"
-            value={
-              inputs.expirationDate
-                ? new Date(inputs.expirationDate).toISOString().substr(0, 10)
-                : ""
-            }
-            onChange={handleChange}
-            onFocus={(e) => (e.target.type = "date")}
-            onBlur={(e) => (e.target.type = "text")}
-            min={new Date().toISOString().split("T")[0]}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <div className="col-span-1 mt-9 h-[56px] shadow-3xl">
-          <CalendarIcon />
-        </div>
-        <label className="col-span-2">
-          CVV/CVC
-          <input
-            type="password"
-            name="csc"
-            value={inputs.csc || ""}
-            onChange={handleChange}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <Button
-          style={{ height: "60px" }}
-          className="mt-2 col-start-2 col-span-4 w-full"
-        >
-          Thanh toán
-        </Button>
-      </form>
-    </>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {({ errors, touched }) => (
+        <Form className="grid grid-cols-6 p-[22.49px] gap-4 text-xl font-bold">
+          <label className="col-span-6">
+            Số thẻ
+            <Field
+              type="string"
+              name="numberCard"
+              className="mt-2 text-lg font-normal"
+            />
+            <ErrorMessage
+              name="numberCard"
+              component="div"
+              className={
+                "text-red-500 text-lg mt-1" +
+                (errors.numberCard && touched.numberCard ? " h-2" : "")
+              }
+            />
+          </label>
+          <label className="col-span-6">
+            Họ tên chủ thẻ
+            <Field
+              type="string"
+              name="fullname"
+              className="mt-2 text-lg font-normal"
+            />
+            <ErrorMessage
+              name="numberCard"
+              component="div"
+              className={
+                "text-red-500 text-lg mt-1" +
+                (errors.numberCard && touched.numberCard ? " h-2" : "")
+              }
+            />
+          </label>
+          <label className="col-span-5">
+            Ngày hết hạn
+            <Field
+              type="text"
+              name="expirationDate"
+              className="mt-2 text-lg font-normal"
+              onFocus={(e: any) => (e.target.type = "date")}
+              onBlur={(e: any) => (e.target.type = "text")}
+              min={new Date().toISOString().split("T")[0]}
+            />
+            <ErrorMessage
+              name="numberCard"
+              component="div"
+              className={
+                "text-red-500 text-lg mt-1" +
+                (errors.numberCard && touched.numberCard ? " h-2" : "")
+              }
+            />
+          </label>
+          <div className="col-span-1 mt-9 h-[56px] shadow-3xl">
+            <CalendarIcon />
+          </div>
+          <label className="col-span-2">
+            CVV/CVC
+            <Field
+              type="password"
+              name="csc"
+              className="mt-2 text-lg font-normal"
+            />
+            <ErrorMessage
+              name="numberCard"
+              component="div"
+              className={
+                "text-red-500 text-lg mt-1" +
+                (errors.numberCard && touched.numberCard ? " h-2" : "")
+              }
+            />
+          </label>
+          <Button
+            style={{ height: "60px" }}
+            className="mt-2 col-start-2 col-span-4 w-full"
+            type="submit"
+          >
+            Thanh toán
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

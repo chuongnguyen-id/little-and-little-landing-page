@@ -1,5 +1,11 @@
-import { useState } from "react";
+// react-router-dom
+import { useLocation } from "react-router-dom";
+
+// component
 import Button from "../../components/Button";
+
+// formik
+import { Formik, Form, Field } from "formik";
 
 interface Inputs {
   price?: string;
@@ -8,107 +14,106 @@ interface Inputs {
   fullname?: string;
   phone?: string;
   email?: string;
+  package?: string;
 }
 
 const TicketInfo = () => {
-  const [inputs, setInputs] = useState<Inputs>({});
+  const location = useLocation();
+  const initialValues: Inputs = location.state;
 
-  const handleChange = (event: any) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+  const onSubmit = (values: Inputs) => {
+    console.log(values);
+    window.alert(JSON.stringify(values));
   };
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log(inputs);
-    window.alert(JSON.stringify(inputs));
+  const getPrice = () => {
+    const { package: packageValue, number } = initialValues;
+    if (packageValue === "Gói thông thường" && number) {
+      const price = 80000 * number;
+      return price.toLocaleString("vi-VN") + " vnđ";
+    } else if (packageValue === "Gói silver" && number) {
+      const price = 180000 * number;
+      return price.toLocaleString("vi-VN") + " vnđ";
+    } else if (packageValue === "Gói gia đình" && number) {
+      const price = 240000 * number;
+      return price.toLocaleString("vi-VN") + " vnđ";
+    } else {
+      return 0 + " vnđ";
+    }
   };
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-8 gap-x-16 gap-y-4 text-xl font-bold pl-[117px] pr-[91px]"
-      >
-        <label className="col-span-3">
-          Số tiền thanh toán
-          <input
-            type="string"
-            name="price"
-            value={inputs.price || ""}
-            onChange={handleChange}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <label className="col-span-2">
-          Số lượng vé
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              name="number"
-              value={inputs.number || ""}
-              onChange={handleChange}
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      {() => (
+        <Form className="grid grid-cols-8 gap-x-16 gap-y-4 text-xl font-bold pl-[117px] pr-[91px]">
+          <label className="col-span-3">
+            Số tiền thanh toán
+            <Field
+              type="string"
+              name="price"
               className="mt-2 text-lg font-normal"
+              value={getPrice()}
+              readOnly
             />
-            vé
-          </div>
-        </label>
-        <label className="col-span-3">
-          Ngày sử dụng
-          <input
-            type="text"
-            name="date"
-            value={
-              inputs.date
-                ? new Date(inputs.date).toISOString().substr(0, 10)
-                : ""
-            }
-            onChange={handleChange}
-            onFocus={(e) => (e.target.type = "date")}
-            onBlur={(e) => (e.target.type = "text")}
-            min={new Date().toISOString().split("T")[0]}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <label className="col-start-1 col-span-5">
-          Thông tin liên hệ
-          <input
-            type="string"
-            name="fullname"
-            value={inputs.fullname || ""}
-            onChange={handleChange}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <label className="col-start-1 col-span-3">
-          Điện thoại
-          <input
-            type="string"
-            name="phone"
-            value={inputs.phone || ""}
-            onChange={handleChange}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <label className="col-start-1 col-span-5">
-          Email
-          <input
-            type="string"
-            name="email"
-            value={inputs.email || ""}
-            onChange={handleChange}
-            className="mt-2 text-lg font-normal"
-          />
-        </label>
-        <Button
-          style={{ height: "60px" }}
-          className="mt-2 col-start-2 col-span-4 w-full"
-        >
-          Thanh toán
-        </Button>
-      </form>
-    </>
+          </label>
+          <label className="col-span-2">
+            Số lượng vé
+            <div className="flex items-center gap-2">
+              <Field
+                type="number"
+                name="number"
+                className="mt-2 text-lg font-normal"
+                readOnly
+              />
+              vé
+            </div>
+          </label>
+          <label className="col-span-3">
+            Ngày sử dụng
+            <Field
+              type="date"
+              name="date"
+              className="mt-2 text-lg font-normal"
+              min={new Date().toISOString().split("T")[0]}
+              readOnly
+            />
+          </label>
+          <label className="col-start-1 col-span-5">
+            Thông tin liên hệ
+            <Field
+              type="string"
+              name="fullname"
+              className="mt-2 text-lg font-normal"
+              readOnly
+            />
+          </label>
+          <label className="col-start-1 col-span-3">
+            Điện thoại
+            <Field
+              type="string"
+              name="phone"
+              className="mt-2 text-lg font-normal"
+              readOnly
+            />
+          </label>
+          <label className="col-start-1 col-span-5">
+            Email
+            <Field
+              type="string"
+              name="email"
+              className="mt-2 text-lg font-normal"
+              readOnly
+            />
+          </label>
+          {/* <Button
+            style={{ height: "60px" }}
+            className="mt-2 col-start-2 col-span-4 w-full"
+          >
+            Thanh toán
+          </Button> */}
+        </Form>
+      )}
+    </Formik>
   );
 };
 
