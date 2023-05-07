@@ -23,7 +23,9 @@ const validationSchema = Yup.object().shape({
   expirationDate: Yup.date()
     .required("Vui lòng nhập ngày hết hạn")
     .min(new Date(), "Ngày hết hạn không hợp lệ"),
-  csc: Yup.string().required("Vui lòng nhập CVV/CVC"),
+  csc: Yup.string()
+    .matches(/[0-9]{3}$/, "CSC không hợp lệ")
+    .required("Vui lòng nhập CVV/CVC"),
 });
 
 const PaymentInfo = () => {
@@ -71,11 +73,11 @@ const PaymentInfo = () => {
               className="mt-2 text-lg font-normal"
             />
             <ErrorMessage
-              name="numberCard"
+              name="fullname"
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.numberCard && touched.numberCard ? " h-2" : "")
+                (errors.fullname && touched.fullname ? " h-2" : "")
               }
             />
           </label>
@@ -90,11 +92,11 @@ const PaymentInfo = () => {
               min={new Date().toISOString().split("T")[0]}
             />
             <ErrorMessage
-              name="numberCard"
+              name="expirationDate"
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.numberCard && touched.numberCard ? " h-2" : "")
+                (errors.expirationDate && touched.expirationDate ? " h-2" : "")
               }
             />
           </label>
@@ -109,11 +111,11 @@ const PaymentInfo = () => {
               className="mt-2 text-lg font-normal"
             />
             <ErrorMessage
-              name="numberCard"
+              name="csc"
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.numberCard && touched.numberCard ? " h-2" : "")
+                (errors.csc && touched.csc ? " h-2" : "")
               }
             />
           </label>

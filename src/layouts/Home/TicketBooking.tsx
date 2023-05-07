@@ -28,8 +28,7 @@ const validationSchema = Yup.object({
   number: Yup.number()
     .required("Vui lòng nhập số lượng vé")
     .min(1, "Số lượng vé không hợp lệ")
-    .max(10, "Số lượng vé tối đa là 10")
-    .positive("Số lượng vé không hợp lệ"),
+    .max(10, "Số lượng vé tối đa là 10"),
   date: Yup.date().required("Vui lòng chọn ngày sử dụng"),
   fullname: Yup.string().required("Vui lòng nhập họ và tên"),
   phone: Yup.string()
