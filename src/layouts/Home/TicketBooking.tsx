@@ -21,6 +21,7 @@ interface Inputs {
   fullname?: string;
   phone?: string;
   email?: string;
+  price?: string;
 }
 
 const validationSchema = Yup.object({
@@ -49,12 +50,29 @@ const TicketBooking = () => {
     fullname: "",
     phone: "",
     email: "",
+    price: "",
+  };
+
+  const getPrice = (values: Inputs) => {
+    const { package: packageValue, number } = values;
+    if (packageValue === "Gói thông thường" && number) {
+      const price = 80000 * number;
+      return price.toLocaleString("vi-VN") + " vnđ";
+    } else if (packageValue === "Gói silver" && number) {
+      const price = 180000 * number;
+      return price.toLocaleString("vi-VN") + " vnđ";
+    } else if (packageValue === "Gói gia đình" && number) {
+      const price = 240000 * number;
+      return price.toLocaleString("vi-VN") + " vnđ";
+    } else {
+      return 0 + " vnđ";
+    }
   };
 
   const onSubmit = (values: Inputs) => {
-    // console.log(values);
-    // window.alert(JSON.stringify(values));
-    navigate("/thanh-toan", { state: values });
+    const price = getPrice(values);
+    const initialValuesWithPrice = { ...values, price };
+    navigate("/thanh-toan", { state: initialValuesWithPrice });
   };
 
   return (
@@ -117,7 +135,17 @@ const TicketBooking = () => {
             />
           </div>
           <div className="col-span-6">
-            <Field placeholder="Số điện thoại" type="text" name="phone" />
+            <Field
+              placeholder="Số điện thoại"
+              type="text"
+              name="phone"
+              maxLength="10"
+              onKeyPress={(event: any) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
+            />
             <ErrorMessage
               name="phone"
               component="div"

@@ -10,16 +10,21 @@ import * as Yup from "yup";
 // icon
 import CalendarIcon from "../../components/Icon/CalendarIcon";
 
+// react-router-dom
+import { useLocation } from "react-router-dom";
+
 interface Inputs {
   numberCard?: string;
-  fullname?: string;
+  cardholderName?: string;
   expirationDate?: Date | "";
   csc?: string;
 }
 
 const validationSchema = Yup.object().shape({
-  numberCard: Yup.string().required("Vui lòng nhập số thẻ"),
-  fullname: Yup.string().required("Vui lòng nhập họ tên chủ thẻ"),
+  numberCard: Yup.string()
+    .matches(/[0-9]{16}$/, "Số thẻ không hợp lệ")
+    .required("Vui lòng nhập số thẻ"),
+  cardholderName: Yup.string().required("Vui lòng nhập họ tên chủ thẻ"),
   expirationDate: Yup.date()
     .required("Vui lòng nhập ngày hết hạn")
     .min(new Date(), "Ngày hết hạn không hợp lệ"),
@@ -29,9 +34,11 @@ const validationSchema = Yup.object().shape({
 });
 
 const PaymentInfo = () => {
+  const location = useLocation();
   const initialValues: Inputs = {
+    ...location.state,
     numberCard: "",
-    fullname: "",
+    cardholderName: "",
     expirationDate: "",
     csc: "",
   };
@@ -52,9 +59,15 @@ const PaymentInfo = () => {
           <label className="col-span-6">
             Số thẻ
             <Field
-              type="string"
+              type="text"
               name="numberCard"
+              maxLength="16"
               className="mt-2 text-lg font-normal"
+              onKeyPress={(event: any) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <ErrorMessage
               name="numberCard"
@@ -68,16 +81,16 @@ const PaymentInfo = () => {
           <label className="col-span-6">
             Họ tên chủ thẻ
             <Field
-              type="string"
-              name="fullname"
+              type="text"
+              name="cardholderName"
               className="mt-2 text-lg font-normal"
             />
             <ErrorMessage
-              name="fullname"
+              name="cardholderName"
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.fullname && touched.fullname ? " h-2" : "")
+                (errors.cardholderName && touched.cardholderName ? " h-2" : "")
               }
             />
           </label>
@@ -108,7 +121,13 @@ const PaymentInfo = () => {
             <Field
               type="password"
               name="csc"
+              maxLength="3"
               className="mt-2 text-lg font-normal"
+              onKeyPress={(event: any) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <ErrorMessage
               name="csc"

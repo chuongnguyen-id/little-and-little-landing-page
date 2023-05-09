@@ -50,7 +50,7 @@ const Contact = () => {
           </Box>
           <div className="w-[539px] flex flex-col gap-y-4">
             {contact.map((item) => (
-              <Box>
+              <Box key={item.label}>
                 <div className="flex px-9 py-12 gap-6">
                   {item.icon}
                   <div>

@@ -41,7 +41,6 @@ const InfoContact = () => {
   };
 
   const onSubmit = (values: any, { resetForm }: any) => {
-    // console.log(values);
     notification.open({
       message: (
         <div className="text-xl p-6">
@@ -56,6 +55,7 @@ const InfoContact = () => {
       },
       placement: "top",
       style: {
+        top: "60px",
         width: "472px",
         height: "169px",
         borderRadius: "24px",
@@ -115,6 +115,7 @@ const InfoContact = () => {
                 type="text"
                 name="phone"
                 placeholder="Số điện thoại"
+                maxLength="10"
                 className={
                   "w-full border-gray-300" +
                   (errors.phone && touched.phone ? " border-red-500" : "")
