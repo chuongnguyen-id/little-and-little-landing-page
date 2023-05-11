@@ -1,5 +1,8 @@
 import React from "react";
 
+// react-router-dom
+import { useLocation } from "react-router-dom";
+
 // component
 import Header from "../Header";
 import DashboardLayout from "../../components/DashboardLayout";
@@ -11,26 +14,31 @@ import BgConfetti from "../BgConfetti";
 import MiniCalendarIcon from "../../components/Icon/MiniCalendarIcon";
 
 // image
-import Event4 from "../../assets/image/Event/Event4.png";
 import Event1 from "../../assets/image/Event/Event1.png";
 
 const EventDetails = () => {
+  const location = useLocation();
+
   return (
     <>
       <Header />
       <DashboardLayout>
-        <Title className="text-[64px]">Sự kiện 1</Title>
+        <Title className="text-[64px]">{location.state.title}</Title>
         <Box className="flex py-16 px-12 gap-x-[43px] text-lg text-justify z-20">
           <div>
-            <img src={Event4} alt="#" className="pb-6 rounded-xl" />
+            <img
+              src={location.state.image}
+              alt="#"
+              className="pb-6 rounded-xl"
+            />
             <div className="flex text-lg text-dateTextColor font-medium">
               <MiniCalendarIcon /> &nbsp;30/05/2021 - 01/06/2021
             </div>
             <div className="text-lg text-descriptionTextColor font-medium">
-              Đầm sen Park
+              {location.state.description}
             </div>
             <div className="text-[32px] text-priceTextColor font-bold py-2">
-              25.000 VNĐ
+              {location.state.price}
             </div>
           </div>
           <div className="w-[288px]">

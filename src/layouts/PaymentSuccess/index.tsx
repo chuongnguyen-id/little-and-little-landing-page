@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef } from "react";
+
+// react-router-dom
+import { useLocation } from "react-router-dom";
 
 // component
 import Header from "../Header";
@@ -8,6 +11,13 @@ import Title from "../../components/Title";
 import Box from "../../components/Box";
 import Button from "../../components/Button";
 
+// swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Swiper as SwiperType, Pagination, Navigation } from "swiper";
+
 // icon
 import PreviousArrowIcon from "../../components/Icon/PreviousArrowIcon";
 import NextArrowIcon from "../../components/Icon/NextArrowIcon";
@@ -15,33 +25,10 @@ import NextArrowIcon from "../../components/Icon/NextArrowIcon";
 // image
 import AvatarAlvin from "../../assets/image/Decor/AvatarAlvin.png";
 
-// redux
-import { getTicketById } from "../../store/feathers/ticketSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch, useAppSelector } from "../../store/store";
-
 const PaymentSuccess = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const ticket = useAppSelector((state: any) => state.ticket.tickets);
-
-  const [loading, setLoading] = useState(true);
-
-  console.log("ticket1: ", ticket);
-
-  useEffect(() => {
-    if (ticket.length > 0) {
-      const latestTicketId = ticket[ticket.length - 1].id;
-      dispatch(getTicketById(latestTicketId));
-      console.log("id: ", latestTicketId);
-      console.log("ticket: ", ticket);
-    }
-
-    setLoading(false);
-  }, [dispatch]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const location = useLocation();
+  // console.log("state: ", location.state);
+  const swiperRef = useRef<SwiperType>();
 
   return (
     <>
@@ -50,29 +37,50 @@ const PaymentSuccess = () => {
         <Title className="mb-4">Thanh toán thành công</Title>
         <div className="flex justify-end">
           <Box>
-            <div className="flex justify-between items-center my-[30px] w-[1419px]">
-              <button>
+            <div className="flex justify-between items-center my-[30px] w-[1400px]">
+              <button
+                onClick={() => swiperRef.current?.slidePrev()}
+                className="m-6 z-20 w-[106px]"
+              >
                 <PreviousArrowIcon />
               </button>
-              <div className="flex justify-center gap-7">
-                {ticket[0] &&
-                  Array.from(Array(ticket[0].number).keys()).map((index) => {
-                    return (
-                      <PaymentCard
-                        key={index}
-                        code={ticket[0].code}
-                        date={ticket[0].date}
-                      />
-                    );
-                  })}
-              </div>
-              <button>
+              <Swiper
+                slidesPerView={4}
+                spaceBetween={30}
+                pagination={{
+                  type: "fraction",
+                  el: ".swiper-custom-pagination",
+                  clickable: true,
+                }}
+                modules={[Pagination, Navigation]}
+                onBeforeInit={(swiper) => {
+                  swiperRef.current = swiper;
+                }}
+              >
+                {location.state &&
+                  Array.from(Array(location.state.number).keys()).map(
+                    (index) => {
+                      return (
+                        <SwiperSlide key={index}>
+                          <PaymentCard
+                            code={location.state.code}
+                            date={location.state.date}
+                          />
+                        </SwiperSlide>
+                      );
+                    }
+                  )}
+              </Swiper>
+              <button
+                onClick={() => swiperRef.current?.slideNext()}
+                className="m-6 z-30 w-[106px]"
+              >
                 <NextArrowIcon />
               </button>
             </div>
             <div className="flex justify-between mx-[125px] my-4 text-xl">
-              {/* <div>Số lượng vé: {ticket[0].number} vé</div> */}
-              <div>Trang 1/3</div>
+              <div className="w-full">Số lượng: {location.state.number} vé</div>
+              <div className="flex justify-end swiper-custom-pagination" />
             </div>
           </Box>
         </div>
@@ -87,7 +95,7 @@ const PaymentSuccess = () => {
         <img
           src={AvatarAlvin}
           alt="Alvin"
-          className="absolute left-0 top-[260px] z-30"
+          className="absolute left-0 top-[260px] z-20"
         />
       </DashboardLayout>
     </>

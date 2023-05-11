@@ -54,7 +54,7 @@ const PaymentInfo = () => {
   const onSubmit = (values: Inputs) => {
     // console.log(values);
     dispatch(createTicket(values));
-    navigate("/thanh-toan/thanh-cong");
+    navigate("/thanh-toan/thanh-cong", { state: initialValues });
   };
 
   return (

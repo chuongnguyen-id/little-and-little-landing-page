@@ -22,7 +22,10 @@ const EventCard = ({
   ...props
 }: Props) => {
   return (
-    <div className={`rounded-xl bg-white z-20 ${className || ""}`} {...props}>
+    <div
+      className={`rounded-xl bg-white z-20 h-[470px] ${className || ""}`}
+      {...props}
+    >
       <img src={image} alt="#" className="rounded-t-xl" />
       <div className="my-3 pl-6">
         <div className="text-3xl font-bold">{title}</div>
