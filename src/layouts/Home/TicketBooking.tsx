@@ -13,16 +13,7 @@ import * as Yup from "yup";
 // icon
 import BottomArrowIcon from "../../components/Icon/BottomArrowIcon";
 import CalendarIcon from "../../components/Icon/CalendarIcon";
-
-interface Inputs {
-  package?: string;
-  number?: number | "";
-  date?: Date | "";
-  fullname?: string;
-  phone?: string;
-  email?: string;
-  price?: string;
-}
+import { Inputs } from "../../interface";
 
 const validationSchema = Yup.object({
   package: Yup.string().required("Vui lòng chọn gói vé"),
@@ -58,7 +49,7 @@ const TicketBooking = () => {
     if (packageValue === "Gói thông thường" && number) {
       const price = 80000 * number;
       return price.toLocaleString("vi-VN") + " vnđ";
-    } else if (packageValue === "Gói silver" && number) {
+    } else if (packageValue === "Gói Silver" && number) {
       const price = 180000 * number;
       return price.toLocaleString("vi-VN") + " vnđ";
     } else if (packageValue === "Gói gia đình" && number) {

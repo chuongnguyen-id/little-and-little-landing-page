@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // component
 import Header from "../Header";
@@ -15,46 +15,63 @@ import NextArrowIcon from "../../components/Icon/NextArrowIcon";
 // image
 import AvatarAlvin from "../../assets/image/Decor/AvatarAlvin.png";
 
-const pay = [
-  {
-    code: "ALT20230503",
-    date: "30/05/2021",
-  },
-  {
-    code: "ALT20230503",
-    date: "30/05/2021",
-  },
-  {
-    code: "ALT20230503",
-    date: "30/05/2021",
-  },
-  {
-    code: "ALT20230503",
-    date: "30/05/2021",
-  },
-];
+// redux
+import { getTicketById } from "../../store/feathers/ticketSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch, useAppSelector } from "../../store/store";
 
 const PaymentSuccess = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const ticket = useAppSelector((state: any) => state.ticket.tickets);
+
+  const [loading, setLoading] = useState(true);
+
+  console.log("ticket1: ", ticket);
+
+  useEffect(() => {
+    if (ticket.length > 0) {
+      const latestTicketId = ticket[ticket.length - 1].id;
+      dispatch(getTicketById(latestTicketId));
+      console.log("id: ", latestTicketId);
+      console.log("ticket: ", ticket);
+    }
+
+    setLoading(false);
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Header />
       <DashboardLayout>
         <Title className="mb-4">Thanh toán thành công</Title>
-        <div className="flex justify-end w-[1560px]">
+        <div className="flex justify-end">
           <Box>
-            <div className="flex justify-center items-center my-[30px] gap-7">
+            <div className="flex justify-between items-center my-[30px] w-[1419px]">
               <button>
                 <PreviousArrowIcon />
               </button>
-              {pay.map((item) => (
-                <PaymentCard code={item.code} date={item.date} />
-              ))}
+              <div className="flex justify-center gap-7">
+                {ticket[0] &&
+                  Array.from(Array(ticket[0].number).keys()).map((index) => {
+                    return (
+                      <PaymentCard
+                        key={index}
+                        code={ticket[0].code}
+                        date={ticket[0].date}
+                      />
+                    );
+                  })}
+              </div>
               <button>
                 <NextArrowIcon />
               </button>
             </div>
             <div className="flex justify-between mx-[125px] my-4 text-xl">
-              <div>Số lượng vé: {pay.length} vé</div>
+              {/* <div>Số lượng vé: {ticket[0].number} vé</div> */}
               <div>Trang 1/3</div>
             </div>
           </Box>

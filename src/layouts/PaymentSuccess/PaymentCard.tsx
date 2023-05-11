@@ -5,7 +5,7 @@ type Props = {
   qrcode?: string;
   title?: string;
   description?: string;
-  date?: string;
+  date?: any;
   price?: string;
   className?: string;
   [key: string]: any;

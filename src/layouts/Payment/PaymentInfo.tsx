@@ -11,14 +11,12 @@ import * as Yup from "yup";
 import CalendarIcon from "../../components/Icon/CalendarIcon";
 
 // react-router-dom
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-interface Inputs {
-  numberCard?: string;
-  cardholderName?: string;
-  expirationDate?: Date | "";
-  csc?: string;
-}
+// redux
+import { createTicket } from "../../store/feathers/ticketSlice";
+import { useAppDispatch } from "../../store/store";
+import { Inputs } from "../../interface";
 
 const validationSchema = Yup.object().shape({
   numberCard: Yup.string()
@@ -35,17 +33,28 @@ const validationSchema = Yup.object().shape({
 
 const PaymentInfo = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
+  const date = new Date(location.state.date);
+  const code =
+    Math.random().toString(36).substring(2, 5).toUpperCase() +
+    date.toLocaleDateString().replace(/\//g, "");
+
   const initialValues: Inputs = {
     ...location.state,
     numberCard: "",
     cardholderName: "",
     expirationDate: "",
     csc: "",
+    code,
   };
 
   const onSubmit = (values: Inputs) => {
-    console.log(values);
-    window.alert(JSON.stringify(values));
+    // console.log(values);
+    dispatch(createTicket(values));
+    navigate("/thanh-toan/thanh-cong");
   };
 
   return (

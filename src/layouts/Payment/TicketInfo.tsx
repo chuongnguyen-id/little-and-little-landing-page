@@ -4,15 +4,7 @@ import { useLocation } from "react-router-dom";
 // formik
 import { Formik, Form, Field } from "formik";
 
-interface Inputs {
-  price?: string;
-  number?: number;
-  date?: Date;
-  fullname?: string;
-  phone?: string;
-  email?: string;
-  package?: string;
-}
+import { Inputs } from "../../interface";
 
 const TicketInfo = () => {
   const location = useLocation();
