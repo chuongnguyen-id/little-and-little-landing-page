@@ -7,20 +7,25 @@ import Button from "../../components/Button";
 // formik
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
+// ant
+import { DatePicker } from "antd";
+import moment from "moment";
+
 // yup
 import * as Yup from "yup";
 
 // icon
 import BottomArrowIcon from "../../components/Icon/BottomArrowIcon";
 import CalendarIcon from "../../components/Icon/CalendarIcon";
+
+// type
 import { Inputs } from "../../interface";
 
 const validationSchema = Yup.object({
   package: Yup.string().required("Vui lòng chọn gói vé"),
   number: Yup.number()
     .required("Vui lòng nhập số lượng vé")
-    .min(1, "Số lượng vé không hợp lệ")
-    .max(10, "Số lượng vé tối đa là 10"),
+    .min(1, "Số lượng vé không hợp lệ"),
   date: Yup.date().required("Vui lòng chọn ngày sử dụng"),
   fullname: Yup.string().required("Vui lòng nhập họ và tên"),
   phone: Yup.string()
@@ -44,6 +49,7 @@ const TicketBooking = () => {
     price: "",
   };
 
+  // calculate the price
   const getPrice = (values: Inputs) => {
     const { package: packageValue, number } = values;
     if (packageValue === "Gói thông thường" && number) {
@@ -61,8 +67,10 @@ const TicketBooking = () => {
   };
 
   const onSubmit = (values: Inputs) => {
+    // console.log(values.date?.toLocaleString());
     const price = getPrice(values);
     const initialValuesWithPrice = { ...values, price };
+    console.log(initialValuesWithPrice);
     navigate("/thanh-toan", { state: initialValuesWithPrice });
   };
 
@@ -89,30 +97,46 @@ const TicketBooking = () => {
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.fullname && touched.fullname ? " h-3" : "")
+                (errors.number && touched.number ? " h-3" : "")
               }
             />
           </div>
-          <div className="col-span-3">
-            <Field
-              placeholder="Ngày sử dụng"
-              type="text"
-              name="date"
-              onFocus={(e: any) => (e.target.type = "date")}
-              onBlur={(e: any) => (e.target.type = "text")}
-              min={new Date().toISOString().split("T")[0]}
-            />
+          <div className="col-span-4">
+            <Field name="date">
+              {({ field }: any) => (
+                <DatePicker
+                  placeholder="Ngày sử dụng"
+                  format="DD/MM/YYYY"
+                  name={field.name}
+                  showToday={false}
+                  suffixIcon={
+                    <div className="ml-3 mr-2">
+                      <CalendarIcon />
+                    </div>
+                  }
+                  size="large"
+                  onChange={(date) => {
+                    field.onChange({
+                      target: {
+                        name: field.name,
+                        value: date?.toISOString().substring(0, 10),
+                      },
+                    });
+                  }}
+                  disabledDate={(current) => {
+                    return current && current < moment();
+                  }}
+                />
+              )}
+            </Field>
             <ErrorMessage
               name="date"
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.fullname && touched.fullname ? " h-3" : "")
+                (errors.date && touched.date ? " h-3" : "")
               }
             />
-          </div>
-          <div className="col-span-1 h-[56px] shadow-3xl">
-            <CalendarIcon />
           </div>
           <div className="col-span-6">
             <Field placeholder="Họ và tên" type="text" name="fullname" />
@@ -142,7 +166,7 @@ const TicketBooking = () => {
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.fullname && touched.fullname ? " h-3" : "")
+                (errors.phone && touched.phone ? " h-3" : "")
               }
             />
           </div>
@@ -153,7 +177,7 @@ const TicketBooking = () => {
               component="div"
               className={
                 "text-red-500 text-lg mt-1" +
-                (errors.fullname && touched.fullname ? " h-3" : "")
+                (errors.email && touched.email ? " h-3" : "")
               }
             />
           </div>

@@ -7,13 +7,14 @@ h2 {
   @apply text-2xl font-semibold;
 }
 
-input {
+input:not(.ant-picker .ant-picker-input) {
   padding-left: 16px;
   width: 100%;
   height: 56px;
   border-radius: 16px;
   box-shadow: inset -1px 3px 3px rgba(179, 91, 11, 0.5);
   resize: none;
+  background-color: white;
 }
 
 select {
@@ -22,8 +23,9 @@ select {
 }
 
 textarea {
-  @extend input;
-  padding-top: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: inset -1px 3px 3px rgba(179, 91, 11, 0.5);
   resize: none;
 }
 
@@ -39,8 +41,33 @@ textarea {
   border-radius: 32px;
 }
 
-.swiper-pagination-custom {
-  position: relative;
-  right: 0;
-  bottom: 0;
+.ant-picker {
+  all: unset;
+}
+
+.ant-picker-panel-container .ant-picker-content th {
+  color: #ff8a00;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.ant-picker-cell-selected .ant-picker-cell-inner {
+  background-color: #ff8a00 !important;
+  border-radius: 50% !important;
+}
+
+.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border: 1px solid #ff8a00 !important;
+  border-radius: 50% !important;
+}
+.ant-picker-panel-container .ant-picker-panel {
+  width: 418px;
+  padding: 15px;
+}
+.ant-picker-panel-container .ant-picker-date-panel {
+  width: 100%;
+}
+
+.ant-picker-panel-container .ant-picker-body > .ant-picker-content {
+  width: 100%;
 }

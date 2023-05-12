@@ -56,6 +56,7 @@ const PaymentSuccess = () => {
                 onBeforeInit={(swiper) => {
                   swiperRef.current = swiper;
                 }}
+                className="w-full"
               >
                 {location.state &&
                   Array.from(Array(location.state.number).keys()).map(
