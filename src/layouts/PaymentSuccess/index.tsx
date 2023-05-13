@@ -25,10 +25,16 @@ import NextArrowIcon from "../../components/Icon/NextArrowIcon";
 // image
 import AvatarAlvin from "../../assets/image/Decor/AvatarAlvin.png";
 
+// react-component-export-image
+import { exportComponentAsPNG } from "react-component-export-image";
+import ExportFile from "./ExportFile";
+
 const PaymentSuccess = () => {
   const location = useLocation();
   // console.log("state: ", location.state);
   const swiperRef = useRef<SwiperType>();
+
+  const componentRef = useRef(null);
 
   return (
     <>
@@ -85,8 +91,13 @@ const PaymentSuccess = () => {
             </div>
           </Box>
         </div>
+        <ExportFile componentRef={componentRef} />
         <div className="flex justify-center items-center gap-6 p-6">
-          <Button style={{ fontSize: "18px" }} className="w-[160px]">
+          <Button
+            onClick={() => exportComponentAsPNG(componentRef)}
+            style={{ fontSize: "18px" }}
+            className="w-[160px]"
+          >
             Tải về
           </Button>
           <Button style={{ fontSize: "18px" }} className="w-[160px]">
